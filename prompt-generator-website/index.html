@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Omni-Architect Prompt Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+            'glass-hover': 'glassHover 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(10px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            glassHover: {
+              '0%': { backdropFilter: 'blur(10px)', transform: 'scale(1)' },
+              '100%': { backdropFilter: 'blur(20px)', transform: 'scale(1.02)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .glass-dark {
+      background: rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-slate-900 dark:from-slate-900 dark:to-slate-800 dark:text-slate-100 font-sans antialiased p-8 transition-all duration-300">
+  <!-- Header -->
+  <header class="max-w-6xl mx-auto mb-12">
+    <div class="glass dark:glass-dark p-8 rounded-3xl shadow-2xl animate-fade-in">
+      <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">Omni-Architect</h1>
+      <p class="text-xl opacity-80">Generate production-ready prompts for attractive, fast, productive apps. Fill form → Preview → Copy & Paste.</p>
+    </div>
+    
+    <!-- Theme Toggle & CMD+K Hint -->
+    <div class="flex justify-between items-center max-w-6xl mx-auto mt-8">
+      <kbd class="px-3 py-1 bg-slate-200 dark:bg-slate-700 rounded-lg font-mono text-sm">⌘K Open Search</kbd>
+      <button id="theme-toggle" class="p-3 glass dark:glass-dark rounded-xl hover:animate-glass-hover transition-all duration-200">
+        <span class="sr-only">Toggle dark mode</span>
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto">
+    <!-- Bento Grid Layout -->
+    <div class="bento-grid">
+      <!-- Form Inputs Card -->
+      <section class="glass dark:glass-dark p-8 rounded-3xl shadow-xl row-span-2 animate-fade-in hover:animate-glass-hover">
+        <h2 class="text-2xl font-bold mb-6 flex items-center">
+          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+          Customize Template
+        </h2>
+        <form id="prompt-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium mb-2">TECH_STACK (e.g., React/Next.js)</label>
+            <input type="text" id="tech-stack" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" value="React/Next.js">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">PROJECT_DESCRIPTION (e.g., Task Management Dashboard)</label>
+            <input type="text" id="project-desc" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" value="Task Management Dashboard">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">DESIGN_SYSTEM (e.g., Tailwind CSS)</label>
+            <input type="text" id="design-system" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" value="Tailwind CSS">
+          </div>
+          <div>
+            <label class="block text-sm font-medium mb-2">SPECIFIC_PAGE (e.g., Main Analytics View)</label>
+            <input type="text" id="specific-page" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" value="Main Dashboard">
+          </div>
+          <!-- Add more fields from template -->
+          <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
+            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
+              Generate Prompt
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Preview Card -->
+      <section id="preview-section" class="glass dark:glass-dark p-8 rounded-3xl shadow-xl col-span-2 animate-fade-in hover:animate-glass-hover max-h-96 overflow-auto">
+        <h2 class="text-2xl font-bold mb-6 sticky top-0 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm z-10 pb-4 flex items-center">
+          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          Generated Prompt (Live Preview)
+        </h2>
+        <pre id="prompt-preview" class="text-sm bg-slate-100 dark:bg-slate-900 p-6 rounded-2xl font-mono whitespace-pre-wrap text-slate-800 dark:text-slate-200 animate-fade-in">Fill the form to generate your custom Omni-Architect prompt...</pre>
+        <div class="sticky bottom-0 pt-6 mt-6 border-t border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
+          <button id="copy-btn" class="w-full bg-green-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+            Copy to Clipboard
+          </button>
+        </div>
+      </section>
+
+      <!-- Pillars Info Card -->
+      <section class="glass dark:glass-dark p-8 rounded-3xl shadow-xl animate-fade-in hover:animate-glass-hover">
+        <h3 class="text-xl font-bold mb-4">4 Pillars</h3>
+        <ul class="space-y-2 text-sm">
+          <li class="flex items-start"><span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>Glassmorphism/Bento Layout</li>
+          <li class="flex items-start"><span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>Optimistic UI & Caching</li>
+          <li class="flex items-start"><span class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>⌘K Search & Bulk Actions</li>
+          <li class="flex items-start"><span class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>Scalability & Security</li>
+        </ul>
+      </section>
+    </div>
+
+    <!-- Command Palette (Hidden by default) -->
+    <div id="command-palette" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-8" role="dialog" aria-modal="true">
+      <div class="glass dark:glass-dark p-8 rounded-3xl shadow-2xl max-w-md w-full max-h-[80vh] overflow-auto animate-fade-in">
+        <div class="flex items-center mb-6">
+          <svg class="w-6 h-6 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          <input type="text" id="cmd-search" class="flex-1 p-3 bg-transparent border-none text-2xl font-bold outline-none" placeholder="Search commands... (⌘K)">
+          <button id="close-palette" class="ml-4 p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-colors">&times;</button>
+        </div>
+        <ul id="cmd-list" class="space-y-2">
+          <li><button class="w-full text-left p-3 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-all">Toggle Dark Mode</button></li>
+          <li><button class="w-full text-left p-3 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-all">Copy Prompt</button></li>
+          <li><button class="w-full text-left p-3 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-all">Reset Form</button></li>
+          <li><button class="w-full text-left p-3 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl transition-all">Export as Markdown</button></li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Full Vanilla JS functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('prompt-form');
+      const preview = document.getElementById('prompt-preview');
+      const copyBtn = document.getElementById('copy-btn');
+      const themeToggle = document.getElementById('theme-toggle');
+      const cmdPalette = document.getElementById('command-palette');
+      const cmdSearch = document.getElementById('cmd-search');
+      const closePalette = document.getElementById('close-palette');
+      const html = document.documentElement;
+
+      // Form inputs
+      const inputs = {
+        'tech-stack': document.getElementById('tech-stack'),
+        'project-desc': document.getElementById('project-desc'),
+        'design-system': document.getElementById('design-system'),
+        'specific-page': document.getElementById('specific-page')
+      };
+
+      // Template strings from prompt_template.txt and prompt.py
+      const template = `Role: You are an Expert Full-Stack Developer and UI/UX Designer specializing in high-performance {TECH_STACK} applications.
+
+Task: I am building a {PROJECT_DESCRIPTION}. I need the foundational structure to be "Attractive, Fast, and Productive."
+
+Requirements:
+
+Attractive UI: Provide a modern, minimalist design system using {DESIGN_SYSTEM}. Focus on accessibility, consistent spacing, and a "SaaS-ready" aesthetic.
+
+Fast Performance: Suggest specific optimization techniques to ensure sub-second load times.
+
+Productivity Features: Design the workflow to minimize user clicks. Include keyboard shortcuts and "command-palette" style navigation.
+
+Code Quality: Write clean, modular, and reusable code.
+
+Constraint: Do not give me a "Hello World" example. Give me a production-ready component for the {SPECIFIC_PAGE}.
+
+**4 Pillars for a "Productive" Project**
+
+1. **Glassmorphism or Bento Layout**
+   "Use a Bento-grid style layout... Framer Motion."
+
+2. **State Management & Latency**
+   "Implement Optimistic UI updates... SWR or React Query."
+
+3. **Efficiency First**
+   "Include a global search bar (CMD+K)... Bulk Actions."
+
+4. **Scalability & Security**
+   "Add authentication... PWA manifest."`;
+
+      // Live preview update
+      const updatePreview = () => {
+        let filled = template;
+        Object.entries(inputs).forEach(([key, input]) => {
+          filled = filled.replace(new RegExp(`\\{${key.toUpperCase()}\\}`, 'g'), input.value || `[${key.toUpperCase()}]`);
+        });
+        preview.textContent = filled;
+      };
+
+      // Init
+      Object.values(inputs).forEach(input => {
+        input.addEventListener('input', updatePreview);
+        updatePreview(); // Initial
+      });
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        updatePreview();
+      });
+
+      // Copy to clipboard
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(preview.textContent);
+          const orig = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Copied!';
+          setTimeout(() => copyBtn.innerHTML = orig, 2000);
+        } catch (err) {
+          console.error('Copy failed', err);
+        }
+      });
+
+      // Theme toggle
+      const toggleTheme = () => {
+        const isDark = html.getAttribute('data-theme') === 'dark';
+        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+        themeToggle.querySelector('svg').classList.toggle('hidden', !isDark);
+        // Add sun icon if needed
+      };
+      themeToggle.addEventListener('click', toggleTheme);
+
+      // CMD+K Command Palette
+      const openPalette = () => cmdPalette.classList.remove('hidden');
+      const closeCmd = () => cmdPalette.classList.add('hidden');
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+          e.preventDefault();
+          openPalette();
+          cmdSearch.focus();
+        }
+        if (e.key === 'Escape') closeCmd();
+      });
+
+      closePalette.addEventListener('click', closeCmd);
+      cmdSearch.addEventListener('input', (e) => {
+        // Simple filter for cmd list
+        const term = e.target.value.toLowerCase();
+        Array.from(document.querySelectorAll('#cmd-list button')).forEach(btn => {
+          btn.style.display = btn.textContent.toLowerCase().includes(term) ? 'block' : 'none';
+        });
+      });
+
+      // Command handlers
+      document.querySelector('#cmd-list button:nth-child(1)').addEventListener('click', () => {
+        toggleTheme();
+        closeCmd();
+      });
+      document.querySelector('#cmd-list button:nth-child(2)').addEventListener('click', () => {
+        copyBtn.click();
+        closeCmd();
+      });
+      document.querySelector('#cmd-list button:nth-child(3)').addEventListener('click', () => {
+        Object.values(inputs).forEach(input => input.value = '');
+        updatePreview();
+        closeCmd();
+      });
+
+      // Responsive & PWA ready
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js'); // Placeholder
+      }
+    });
+  </script>
+</body>
+</html>

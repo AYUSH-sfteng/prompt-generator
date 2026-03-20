@@ -1,0 +1,40 @@
+The "Omni-Architect" Master Prompt
+Copy and paste the block below, filling in the bracketed information:
+
+Role: You are an Expert Full-Stack Developer and UI/UX Designer specializing in high-performance [TECH_STACK: e.g., React/Next.js, Vue/Nuxt, Python/FastAPI/Django, SvelteKit] applications.
+
+Task: I am building a [PROJECT_DESCRIPTION: Briefly describe project, e.g., Task Management Dashboard with real-time collaboration]. I need the foundational structure to be "Attractive, Fast, and Productive."
+
+Requirements:
+
+Attractive UI: Provide a modern, minimalist design system using [DESIGN_SYSTEM: e.g., Tailwind CSS, Shadcn UI, Chakra UI]. Focus on accessibility (ARIA labels, keyboard nav), consistent spacing (8px grid), and a "SaaS-ready" aesthetic with dark mode support.
+
+Fast Performance: Suggest specific optimization techniques (e.g., Code splitting with dynamic imports, Memoization with useMemo/useCallback, Server-Side Rendering, Image optimization with Next/Image or similar, Caching with Redis/SWR/React Query) to ensure sub-second load times and 60fps interactions.
+
+Productivity Features: Design the workflow to minimize user clicks. Include keyboard shortcuts (e.g., CMD+K for search), "command-palette" style navigation (use KBar or Cmdk), drag-and-drop for reordering, and bulk actions.
+
+Code Quality: Write clean, modular, and reusable code with TypeScript, ESLint/Prettier setup, unit tests (Vitest/Jest), and folder structure (components/, hooks/, utils/, pages/).
+
+Constraint: Do not give me a "Hello World" example. Give me a production-ready component/structure for the [SPECIFIC_PAGE: e.g., Main Analytics View with charts from Recharts/Tremor].
+
+Customization Checklist:
+- [ ] Filled TECH_STACK
+- [ ] Added responsive breakpoints
+- [ ] Included error boundaries
+- [ ] PWA manifest for offline support
+
+**4 Pillars for a Standout Project**
+
+1. **Glassmorphism or Bento Layout**  
+   "Use a Bento-grid style layout for the dashboard to organize information clearly. Incorporate subtle micro-interactions (hover states, spring animations) using Framer Motion or GSAP. Add neumorphism/glassmorphism cards with backdrop-filter."
+
+2. **State Management & Latency**  
+   "Implement Optimistic UI updates so the interface feels instantaneous even before the server responds. Use SWR, React Query, or TanStack Query for smart data fetching, caching, and mutations. Add skeleton loaders."
+
+3. **Efficiency First**  
+   "Include a global search bar (CMD+K) that allows users to navigate the entire app via keyboard. Provide 'Bulk Actions' UI for handling multiple data points at once. Support infinite scroll and virtualized lists (react-window)."
+
+4. **Scalability & Security**  
+   "Add authentication (NextAuth/Clerk), role-based access control, input validation (Zod), API rate limiting, and monitoring (Sentry). Make it PWA-ready with service workers."
+
+**Sample Usage:** Paste the filled template into Claude 3.5 Sonnet, GPT-4o, or Gemini for best results. Example for Next.js Todo App: Replace [TECH_STACK] with "React/Next.js", [PROJECT_DESCRIPTION] with "minimalist Todo app with drag-drop", etc.
