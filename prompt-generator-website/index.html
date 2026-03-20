@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Omni-Architect Prompt Generator</title>
+<title>PromptForge - AI Prompt Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -30,27 +30,46 @@
   </script>
   <style>
     .glass {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.1), 0 10px 20px -5px rgba(0, 0, 0, 0.05);
     }
     .glass-dark {
-      background: rgba(0, 0, 0, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(31, 41, 55, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 25px 45px -10px rgba(0, 0, 0, 0.4), 0 10px 20px -5px rgba(0, 0, 0, 0.2);
     }
     .bento-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 4rem;
+    }
+    .code-preview {
+      line-height: 1.75;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    }
+    .code-preview strong {
+      color: #3b82f6;
+    }
+    .code-preview em {
+      color: #10b981;
     }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 text-slate-900 dark:from-slate-900 dark:to-slate-800 dark:text-slate-100 font-sans antialiased p-8 transition-all duration-300">
+  <body class="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 text-slate-900 dark:from-slate-900 dark:via-slate-800 dark:to-indigo-900 dark:text-slate-100 font-sans antialiased p-12 transition-all duration-500">
   <!-- Header -->
   <header class="max-w-6xl mx-auto mb-12">
     <div class="glass dark:glass-dark p-8 rounded-3xl shadow-2xl animate-fade-in">
-      <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">Omni-Architect</h1>
-      <p class="text-xl opacity-80">Generate production-ready prompts for attractive, fast, productive apps. Fill form → Preview → Copy & Paste.</p>
+<div class="flex items-center mb-6">
+          <svg class="w-16 h-16 mr-4 text-blue-600 drop-shadow-lg" viewBox="0 0 100 100" fill="currentColor">
+            <path d="M20 20 L80 20 L80 80 L20 80 Z M30 30 L70 30 L70 50 L50 50 L50 70 L30 70 Z"/>
+          </svg>
+          <div>
+            <h1 class="text-6xl font-black bg-gradient-to-r from-indigo-600 via-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">PromptForge</h1>
+            <p class="text-2xl opacity-90 font-medium bg-gradient-to-r from-slate-600 to-slate-500 bg-clip-text">Forge production-ready AI prompts. Real-time generation • Smart scoring • One-click copy.</p>
+          </div>
+        </div>
     </div>
     
     <!-- Theme Toggle & CMD+K Hint -->
@@ -68,11 +87,51 @@
     <div class="bento-grid">
       <!-- Form Inputs Card -->
       <section class="glass dark:glass-dark p-8 rounded-3xl shadow-xl row-span-2 animate-fade-in hover:animate-glass-hover">
-        <h2 class="text-2xl font-bold mb-6 flex items-center">
-          <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+<h2 class="text-3xl font-bold mb-8 flex items-center">
+          <svg class="w-7 h-7 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
           Customize Template
         </h2>
-        <form id="prompt-form" class="space-y-4">
+        <form id="prompt-form" class="space-y-6">
+          <div class="space-y-2">
+            <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700 pb-2">Core Inputs</h3>
+            <div>
+            <label class="block text-sm font-medium mb-2">Tech Stack</label>
+              <input type="text" id="tech-stack" class="w-full p-4 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200" value="React/Next.js">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-2">Project Description</label>
+              <input type="text" id="project-desc" class="w-full p-4 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200" value="Task Management Dashboard">
+            </div>
+          </div>
+          <div class="space-y-2 pt-6 border-t border-slate-200 dark:border-slate-700">
+            <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 pb-2">Advanced</h3>
+            <div>
+              <label class="block text-sm font-medium mb-2">Tone</label>
+              <select id="tone" class="w-full p-4 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200">
+                <option>Professional</option>
+                <option>Casual</option>
+                <option>Startup</option>
+              </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-sm font-medium mb-2">Output Type</label>
+                <select id="output-type" class="w-full p-4 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200">
+                  <option>Code</option>
+                  <option>UI Mockup</option>
+                  <option>Strategy</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium mb-2">Complexity</label>
+                <select id="complexity" class="w-full p-4 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200">
+                  <option>Beginner</option>
+                  <option>Intermediate</option>
+                  <option>Advanced</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <div>
             <label class="block text-sm font-medium mb-2">TECH_STACK (e.g., React/Next.js)</label>
             <input type="text" id="tech-stack" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" value="React/Next.js">
@@ -90,9 +149,27 @@
             <input type="text" id="specific-page" class="w-full p-3 border border-slate-200 dark:border-slate-700 rounded-xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" value="Main Dashboard">
           </div>
           <!-- Add more fields from template -->
-          <div class="pt-4 border-t border-slate-200 dark:border-slate-700">
-            <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl">
-              Generate Prompt
+        <div class="pt-8 border-t border-slate-200 dark:border-slate-700 space-y-3">
+            <div class="flex gap-3">
+              <select id="preset-select" class="flex-1 p-4 border border-slate-200 dark:border-slate-700 rounded-2xl bg-white/60 dark:bg-slate-800/60 backdrop-blur-sm focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-200">
+                <option value="">Template Presets</option>
+                <option value="saas">SaaS App</option>
+                <option value="portfolio">Portfolio</option>
+                <option value="dashboard">Dashboard</option>
+                <option value="ai-tool">AI Tool</option>
+              </select>
+              <button type="submit" class="px-8 bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-2xl font-bold text-lg hover:from-blue-700 hover:to-purple-700 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 shadow-xl hover:shadow-2xl flex-1 flex items-center justify-center">
+                <svg class="w-6 h-6 -ml-1 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                Generate
+              </button>
+            </div>
+            <button type="button" id="improve-btn" class="w-full bg-gradient-to-r from-emerald-500 to-teal-600 text-white py-4 px-8 rounded-2xl font-bold hover:from-emerald-600 hover:to-teal-700 transform hover:scale-[1.02] hover:-translate-y-1 transition-all duration-300 shadow-xl hover:shadow-2xl flex items-center justify-center">
+              <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+              AI Prompt Improver 🔥
+            </button>
+            <button type="button" id="reset-btn" class="w-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-4 px-8 rounded-2xl font-semibold hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200 shadow-md hover:shadow-lg border border-slate-200/50 dark:border-slate-700/50">
+              <svg class="w-5 h-5 inline mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              Reset Form
             </button>
           </div>
         </form>
@@ -104,7 +181,7 @@
           <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
           Generated Prompt (Live Preview)
         </h2>
-        <pre id="prompt-preview" class="text-sm bg-slate-100 dark:bg-slate-900 p-6 rounded-2xl font-mono whitespace-pre-wrap text-slate-800 dark:text-slate-200 animate-fade-in">Fill the form to generate your custom Omni-Architect prompt...</pre>
+        <pre id="prompt-preview" class="code-preview text-sm bg-gradient-to-b from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-950 p-8 rounded-3xl font-mono whitespace-pre-wrap text-slate-800 dark:text-slate-200 shadow-inner border border-slate-200/50 dark:border-slate-700/50 animate-fade-in max-h-80 overflow-y-auto">Fill the form to generate your custom Omni-Architect prompt...</pre>
         <div class="sticky bottom-0 pt-6 mt-6 border-t border-slate-200 dark:border-slate-700 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
           <button id="copy-btn" class="w-full bg-green-600 text-white py-3 px-6 rounded-xl font-semibold hover:bg-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
@@ -113,15 +190,35 @@
         </div>
       </section>
 
-      <!-- Pillars Info Card -->
+      <!-- AI Insights Card -->
       <section class="glass dark:glass-dark p-8 rounded-3xl shadow-xl animate-fade-in hover:animate-glass-hover">
-        <h3 class="text-xl font-bold mb-4">4 Pillars</h3>
-        <ul class="space-y-2 text-sm">
-          <li class="flex items-start"><span class="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>Glassmorphism/Bento Layout</li>
-          <li class="flex items-start"><span class="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>Optimistic UI & Caching</li>
-          <li class="flex items-start"><span class="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>⌘K Search & Bulk Actions</li>
-          <li class="flex items-start"><span class="w-2 h-2 bg-orange-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>Scalability & Security</li>
-        </ul>
+        <h3 class="text-xl font-bold mb-6 flex items-center">
+          <svg class="w-6 h-6 mr-2 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+          AI Insights 🧠
+        </h3>
+        <div id="score-section" class="space-y-4 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="text-center p-4 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
+              <div class="text-2xl font-bold text-blue-600">Clarity</div>
+              <div class="text-3xl font-black text-slate-900 dark:text-slate-100" id="clarity-score">85%</div>
+            </div>
+            <div class="text-center p-4 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
+              <div class="text-2xl font-bold text-green-600">Completeness</div>
+              <div class="text-3xl font-black text-slate-900 dark:text-slate-100" id="completeness-score">72%</div>
+            </div>
+            <div class="text-center p-4 rounded-2xl bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm">
+              <div class="text-2xl font-bold text-purple-600">Optimization</div>
+              <div class="text-3xl font-black text-slate-900 dark:text-slate-100" id="optimization-score">68%</div>
+          </div>
+          <div class="bg-gradient-to-r from-slate-200/70 to-slate-300/70 dark:from-slate-700/70 to-slate-800/70 rounded-2xl p-4 backdrop-blur-sm">
+            <h4 class="font-semibold mb-2">Suggestions:</h4>
+            <ul id="insights-list" class="text-sm space-y-1">
+              <li>• Add specific performance metrics (load time targets)</li>
+              <li>• Include accessibility requirements (WCAG)</li>
+              <li>• Specify target users (enterprise/freelancer)</li>
+            </ul>
+          </div>
+        </div>
       </section>
     </div>
 
@@ -144,7 +241,7 @@
   </main>
 
   <script>
-    // Full Vanilla JS functionality
+      // Full Vanilla JS functionality
     document.addEventListener('DOMContentLoaded', () => {
       const form = document.getElementById('prompt-form');
       const preview = document.getElementById('prompt-preview');
@@ -154,14 +251,96 @@
       const cmdSearch = document.getElementById('cmd-search');
       const closePalette = document.getElementById('close-palette');
       const html = document.documentElement;
+      const presetSelect = document.getElementById('preset-select');
+      const improveBtn = document.getElementById('improve-btn');
+      const resetBtn = document.getElementById('reset-btn');
+      const scoreElements = {
+        clarity: document.getElementById('clarity-score'),
+        completeness: document.getElementById('completeness-score'),
+        optimization: document.getElementById('optimization-score')
+      };
 
       // Form inputs
       const inputs = {
         'tech-stack': document.getElementById('tech-stack'),
         'project-desc': document.getElementById('project-desc'),
         'design-system': document.getElementById('design-system'),
-        'specific-page': document.getElementById('specific-page')
+        'specific-page': document.getElementById('specific-page'),
+        'tone': document.getElementById('tone'),
+        'output-type': document.getElementById('output-type'),
+        'complexity': document.getElementById('complexity')
       };
+
+      // Preset data
+      const presets = {
+        saas: {
+          'tech-stack': 'React/Next.js + Tailwind',
+          'project-desc': 'SaaS subscription dashboard with billing & analytics',
+          'design-system': 'Tailwind CSS + Shadcn UI',
+          'specific-page': 'Subscription Management Dashboard'
+        },
+        portfolio: {
+          'tech-stack': 'Next.js + Framer Motion',
+          'project-desc': 'Personal portfolio with smooth animations',
+          'design-system': 'Tailwind CSS',
+          'specific-page': 'Projects Gallery'
+        },
+        dashboard: {
+          'tech-stack': 'React + Chart.js',
+          'project-desc': 'Analytics dashboard with charts',
+          'design-system': 'Tailwind CSS + Tremor',
+          'specific-page': 'Main Analytics View'
+        },
+        'ai-tool': {
+          'tech-stack': 'Next.js + Vercel AI SDK',
+          'project-desc': 'AI-powered writing assistant',
+          'design-system': 'Tailwind CSS',
+          'specific-page': 'Chat Interface'
+        }
+      };
+
+      // Update score function
+      const updateScores = () => {
+        const projectLen = inputs['project-desc'].value.trim().length;
+        const techLen = inputs['tech-stack'].value.trim().length;
+        const filledFields = Object.values(inputs).filter(input => input.value.trim()).length;
+        const totalFields = Object.keys(inputs).length;
+
+        scoreElements.clarity.textContent = Math.min(95, 50 + projectLen / 5) + '%';
+        scoreElements.completeness.textContent = Math.min(100, (filledFields / totalFields * 100)) + '%';
+        scoreElements.optimization.textContent = Math.min(90, 40 + techLen / 3) + '%';
+      };
+
+      // Preset load
+      presetSelect.addEventListener('change', (e) => {
+        const preset = presets[e.target.value];
+        if (preset) {
+          Object.entries(preset).forEach(([key, value]) => {
+            inputs[key].value = value;
+          });
+          updatePreview();
+          updateScores();
+        }
+      });
+
+      // Improve prompt
+      improveBtn.addEventListener('click', () => {
+        let enhanced = preview.textContent + '\n\nENHANCEMENTS FOR CLARITY & DETAIL:\n• Use specific metrics (e.g., <1s load time)\n• Include edge cases & error handling\n• Add user personas & journey maps\n• Optimize for mobile-first responsive\n• Prioritize SEO/Perf budget';
+        preview.textContent = enhanced;
+        updateScores();
+      });
+
+      // Reset confirm
+      resetBtn.addEventListener('click', () => {
+        if (confirm('Reset all fields?')) {
+          Object.values(inputs).forEach(input => {
+            if (input.tagName === 'INPUT') input.value = '';
+            else if (input.tagName === 'SELECT') input.selectedIndex = 0;
+          });
+          updatePreview();
+          updateScores();
+        }
+      });
 
       // Template strings from prompt_template.txt and prompt.py
       const template = `Role: You are an Expert Full-Stack Developer and UI/UX Designer specializing in high-performance {TECH_STACK} applications.
@@ -204,10 +383,14 @@ Constraint: Do not give me a "Hello World" example. Give me a production-ready c
       };
 
       // Init
+      const inputHandler = () => {
+        updatePreview();
+        updateScores();
+      };
       Object.values(inputs).forEach(input => {
-        input.addEventListener('input', updatePreview);
-        updatePreview(); // Initial
+        input.addEventListener('input', inputHandler);
       });
+      inputHandler(); // Initial
 
       form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -216,23 +399,51 @@ Constraint: Do not give me a "Hello World" example. Give me a production-ready c
 
       // Copy to clipboard
       copyBtn.addEventListener('click', async () => {
+        copyBtn.style.transform = 'scale(0.95)';
+        copyBtn.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
         try {
           await navigator.clipboard.writeText(preview.textContent);
           const orig = copyBtn.innerHTML;
-          copyBtn.innerHTML = '<svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Copied!';
-          setTimeout(() => copyBtn.innerHTML = orig, 2000);
+          copyBtn.innerHTML = '<svg class="w-5 h-5 mr-2 animate-spin" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>Copied!';
+          setTimeout(() => {
+            copyBtn.innerHTML = orig;
+            copyBtn.style.transform = '';
+          }, 2500);
         } catch (err) {
+          copyBtn.innerHTML = orig;
+          copyBtn.style.transform = '';
           console.error('Copy failed', err);
         }
       });
 
       // Theme toggle
+      // Theme toggle with localStorage
+      const loadTheme = () => {
+        const saved = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const isDark = saved === 'dark' || (!saved && prefersDark);
+        html.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        moonIcon.style.display = isDark ? 'none' : 'block';
+        sunIcon.style.display = isDark ? 'block' : 'none';
+      };
+
       const toggleTheme = () => {
         const isDark = html.getAttribute('data-theme') === 'dark';
-        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-        themeToggle.querySelector('svg').classList.toggle('hidden', !isDark);
-        // Add sun icon if needed
+        const newTheme = isDark ? 'light' : 'dark';
+        html.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        moonIcon.style.display = newTheme === 'dark' ? 'none' : 'block';
+        sunIcon.style.display = newTheme === 'dark' ? 'block' : 'none';
       };
+
+      const sunIcon = themeToggle.appendChild(document.createElement('svg'));
+      sunIcon.className = 'w-6 h-6 absolute opacity-0';
+      sunIcon.innerHTML = '<path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 01-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100 2H3a1 1 0 000-2h1z" clip-rule="evenodd" fill="currentColor" />';
+      const moonIcon = themeToggle.querySelector('svg');
+      const sunIcons = themeToggle.querySelectorAll('svg');
+      sunIcons[1].classList.add('transition-opacity');
+      moonIcon.classList.add('transition-opacity');
+      loadTheme();
       themeToggle.addEventListener('click', toggleTheme);
 
       // CMD+K Command Palette
